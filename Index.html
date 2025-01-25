@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Alistair James Company Ltd</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Visit Alistair James Company Ltd</h2>
+        <label for="startingPoint">Starting Point</label>
+        <input type="text" id="startingPoint" placeholder="e.g., Mwanza, Tanzania" required />
+
+        <label for="destination">Destination Point</label>
+        <input type="text" id="destination" value="Alistair James Company Ltd, 47WQ+C99, Dar es Salaam" readonly />
+
+        <button onclick="getDirections()">Get Directions</button>
+        <button onclick="useCurrentLocation()">Use My Current Location</button>
+
+        <!-- Embedded Google Map -->
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2526.3411160021966!2d39.25432161072974!3d-6.816315862204579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x185c4b25028908a7%3A0x2ed8c240fd9a8bfa!2sAlistair%20James%20Company%20Ltd!5e0!3m2!1sen!2stz!4v1612399815111!5m2!1sen!2stz" 
+            allowfullscreen="" 
+            loading="lazy">
+        </iframe>
+    </div>
+
+    <script>
+        function getDirections() {
+            const startingPoint = document.getElementById("startingPoint").value.trim();
+            const destination = document.getElementById("destination").value.trim();
+
+            if (startingPoint) {
+                const googleMapsUrl = `https://www.google.com/maps/dir/${encodeURIComponent(startingPoint)}/${encodeURIComponent(destination)}`;
+                window.location.href = googleMapsUrl;
+            } else {
+                alert("Please enter a starting point.");
+            }
+        }
+
+        function useCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        const currentLocation = `${latitude},${longitude}`;
+                        const destination = document.getElementById("destination").value.trim();
+
+                        const googleMapsUrl = `https://www.google.com/maps/dir/${encodeURIComponent(currentLocation)}/${encodeURIComponent(destination)}`;
+                        window.location.href = googleMapsUrl;
+                    },
+                    () => {
+                        alert("Unable to retrieve your location. Please allow location access.");
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+    </script>
+</body>
+</html>
